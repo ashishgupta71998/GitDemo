@@ -1,0 +1,269 @@
+ASSIGNMENT NO. 7 
+
+ 
+
+Find the Companies that placed orders in 1997. 
+
+Select COMPANYNAME from "CUSTOMERS" where CUSTOMERID in (Select CUSTOMERID from "ORDERS" where ORDERDATE like '%97'); 
+
+ 
+
+Create a report that shows all products by name that are in the Seafood category. 
+
+Select PRODUCTNAME from "PRODUCTS" where CATEGORYID =(Select CATEGORYID from "CATEGORIES" where CATEGORYNAME='Seafood'); 
+
+ 
+
+Create a report that shows all companies by name that sell products in CategoryID 8. 
+
+Select COMPANYNAME from "SUPPLIERS" where SUPPLIERID in (Select SUPPLIERID from "PRODUCTS" where CATEGORYID=8); 
+
+ 
+
+Create a report that shows all companies by name that sell products in the Seafood category. 
+
+Select COMPANYNAME from "SUPPLIERS" where SUPPLIERID in (Select SUPPLIERID from "PRODUCTS" where CATEGORYID=(Select CATEGORYID from "CATEGORIES" where CATEGORYNAME='Seafood')); 
+
+ 
+
+Provide list of customers who ordered more than 20 items of product number 23 on a single order. 
+
+Select CUSTOMERID from "ORDERS" where ORDERID in (Select ORDERID from "ORDER_DETAILS" where PRODUCTID=23 and QUANTITY>=20); 
+
+ 
+
+Update the supplier as 'Refrescos Americanas LTDA' for all the products in 'Beverages' category. 
+
+Update "SUPPLIERS" set COMPANYNAME='Refrescos Americanas LTDA' where SUPPLIERID in (Select SUPPLIERID from "PRODUCTS" where CATEGORYID=(Select CATEGORYID from "CATEGORIES" where CATEGORYNAME='Beverages')); 
+
+ 
+
+Take a backup of all the employees located in USA  in Emp_USA_Backup table. 
+
+New table will contain the Name, Title, Birthdate, Hiredate, address, country and contact details. 
+
+              Create View "Emp_USA_Backup" AS Select FIRSTNAME || ' ' || LASTNAME AS FULLNAME, TITLE, BIRTHDATE, HIREDATE, ADDRESS, COUNTRY, HOMEPHONE from "EMPLOYEES" where COUNTRY='USA' ; 
+
+ 
+
+ASSIGNMENT NO. 8 
+
+Explain the following DCL statements in short 
+
+GRANT 
+
+SQL GRANT is a command used to provide access or privileges on the database objects to the users. 
+
+REVOKE 
+
+The REVOKE command removes user access rights or privileges to the database objects. 
+
+ 
+
+ 
+
+Explain the types of privileges with their use. 
+
+ 
+
+There are 2 types of privileges: 
+
+a). Object privileges:-  These privileges are related to the existing objects in the database 
+
+     Obj : Table, View, Procedure,  Function etc.. 
+
+     Priv : Select , Insert, Update, Delete, Execute etc 
+
+    Syntax :  
+
+GRANT privileges ON Object TO User [ With Grant option ] 
+
+ 
+
+b). System privileges:- These privileges give the right to perform a particular action the database 
+
+ 
+
+    Create any table, alter any table, drop any table 
+
+    Create any view, drop any view 
+
+    Create any index, create any trigger, drop any trigger, etc 
+
+    Syntax:  
+
+                Grant privileges TO User [ with admin option] 
+
+ 
+
+Explain the concept of Role in short along with it’s advantages. 
+
+Roles are a collection of privileges or access rights. When there are many users in a database it becomes difficult to grant or revoke privileges to users. Therefore, if you define roles, you can grant or revoke privileges to users, thereby automatically granting or revoking privileges.  
+
+ 
+
+                    Advantages: 
+
+Reducing the number of grants and thereby making it easier to manage security. 
+
+Dynamically changing the privileges for many users with a single grant or revoke. 
+
+Selectively enabling or disabling depending on the application. 
+
+ 
+
+ 
+
+Assign the SELECT, INSERT privilege on Employees table to User2 
+
+Grant Select , Insert on EMPLOYEES to User2 
+
+ 
+
+Assign SELECT privilege on Products, Suppliers and Customers table to User2 
+
+Allow grantee to assign the same privileges to further other users as well. 
+
+                     Grant Select on PRODUCTS,SUPPLIERS,CUSTOMERS to User2 With Grant Option 
+
+ 
+
+ 
+
+Create a role with password assigned 
+
+Assign below privileges to the role 
+
+Create any table 
+
+Create any view 
+
+Alter any table 
+
+Drop any table 
+
+Create any index 
+
+Drop any index 
+
+Assign a role to User1 
+
+ 
+
+         Create role Role_new 
+
+         Grant create any table to Role_new 
+
+         Grant create any view to Role_new 
+
+         Grant alter any table to Role_new 
+
+         Grant drop any table to Role_new 
+
+         Grant create any index to Role_new 
+
+         Grant drop any index to Role_new 
+
+         Grant Role_new to user1 
+
+ 
+
+Explain the concept of database Transaction in short. 
+
+A transaction is a sequence of operations performed on a database as a single logical unit of work.  
+
+ 
+
+Explain the types of Transaction Control statements with their uses. 
+
+Commit: 
+
+ 
+
+The main use of Commit command is to make the transaction permanent. If there is a need for any transaction to be done in the database that transaction permanent through commit command. The general syntax for the Commit command: 
+
+COMMIT; 
+
+ 
+
+Rollback: 
+
+ 
+
+Using this command, the database can be restored to the last committed state. It is also used with savepoint command for jumping to a savepoint in a transaction. 
+
+The general syntax for the Rollback command is mentioned below: 
+
+Rollback to savepoint-name; 
+
+ 
+
+Savepoint: 
+
+ 
+
+The main use of the Savepoint command is to save a transaction temporarily. This way users can rollback to the point whenever it is needed. 
+
+The general syntax for the savepoint command is mentioned below: 
+
+savepoint savepoint-name; 
+
+ 
+
+ 
+
+ 
+
+ASSIGNMENT NO. 9 
+
+Create a Sequence object which will generate the unique integers from 1 to 50 to populate the primary key values in newly created table. 
+
+  CREATE SEQUENCE seq_primarykey 
+
+  START WITH 1 
+
+  INCREMENT BY 1 
+
+  MAXVALUE 50 
+
+  NOCYCLE 
+
+ 
+
+Create a Sequence object which will generate the values 5,10,15,20…. upto 200. 
+
+CREATE SEQUENCE seq_5to20 
+
+START WITH 5 
+
+INCREMENT WITH 5 
+
+MAXVALUE 200 
+
+NOCYCE 
+
+ 
+
+Create a view which will display category name, product name and supplier details for all the products in Beverages, Condiments and Confections categories. 
+
+               CREATE VIEW “DETAILS” Select c.ATEGORYNAME,p.PRODUCTNAME,s.SUPPLIERID from “PRODUCTS” p,“CATEGORIES” c,”SUPPLIERS” s  where p.CATEGORYID =c.CATEGORYID and CATEGORYNAME in ('Beverages','Condiments','Confections'); 
+
+Create a Synonym for above View. 
+
+Create Synonym “DTLS” for “DISPLAY”; 
+
+ 
+
+Explain the concept of View in short along with its advantages 
+
+                A view can draw data from several different tables and present it as a single table, turning multi-table queries into single-table queries against the view. Views can give a user a "personalized" view of the database structure, presenting the database as a set of virtual tables that make sense for that user. 
+
+ 
+
+Advantages over tables:  
+
+Views can represent a subset of the data contained in a table. Consequently, a view can limit the degree of exposure of the underlying tables to the outer world: a given user may have permission to query the view, while denied access to the rest of the base table. 
+
+ 
+
+ 
